@@ -7,7 +7,7 @@ export const GET_DATA = 'GET_DATA';
 export function getData(post) {
   return {
     type: GET_DATA,
-    data:"Mii is here=))))",
+    data:"Mii is here=)))) Phase 3",
   };
 }
 
