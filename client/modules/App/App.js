@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-
+import { withRouter } from 'react-router'
 
 // Import Components
 import Helmet from 'react-helmet';
 
 
 
-
-export class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
   }
@@ -47,4 +46,4 @@ export class App extends Component {
 }
 
 
-export default connect(()=>{}, ()=>{})(App);
+export default withRouter(App);

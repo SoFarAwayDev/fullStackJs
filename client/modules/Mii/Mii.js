@@ -1,10 +1,17 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import {fetchData} from "./MiiActions";
-
+import {fetchData as getTxt} from "./MiiActions";
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router'
 
 class Mii extends Component {
+  static fetchData(store) {
+    return store.dispatch(getTxt());
+  }
 
+  componentDidMount() {
+    this.props.getTxt();
+  }
 
   render() {
     return (
@@ -17,7 +24,6 @@ class Mii extends Component {
 }
 
 // Actions required to provide data for this component to render in sever side.
-Mii.need = [() => { return  fetchData() }];
 
 // Retrieve data from store as props
 function mapStateToProps({mii}) {
@@ -26,5 +32,7 @@ function mapStateToProps({mii}) {
   };
 }
 
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getTxt }, dispatch);
 
-export default connect(mapStateToProps)(Mii);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Mii));

@@ -3,42 +3,37 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
-//import { AppContainer } from 'react-hot-loader';
-import App from './App';
-//import { configureStore } from './store';
 
-// Initialize store
-//const store = configureStore(window.__INITIAL_STATE__);
+
+
+
+import BrowserRouter from 'react-router-dom/BrowserRouter';
+import { renderRoutes } from 'react-router-config';
+
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+import routes from './routes';
+import reducers from './reducers';
+
 const mountApp = document.getElementById('root');
 
+const store = createStore(
+  reducers, window.__INITIAL_STATE__, applyMiddleware(thunk)
+);
 
-
-/*render(
-  <AppContainer>
-    <App store={store} />
-  </AppContainer>,
-  mountApp
-);*/
-
+const AppRouter = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        {renderRoutes(routes)}
+      </BrowserRouter>
+    </Provider>
+  )
+}
 
 render(
-
-    <App txtMsg={window.__INITIAL_STATE__} />,
-
+  <AppRouter/>,
   mountApp
 );
-/*
-// For hot reloading of react components
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    // If you use Webpack 2 in ES modules mode, you can
-    // use <App /> here rather than require() a <NextApp />.
-    const NextApp = require('./App').default; // eslint-disable-line global-require
-    render(
-      <AppContainer>
-        <NextApp store={store} />
-      </AppContainer>,
-      mountApp
-    );
-  });
-}*/

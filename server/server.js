@@ -1,27 +1,26 @@
 import Express from 'express';
 import compression from 'compression';
-//import mongoose from 'mongoose';
+
 import bodyParser from 'body-parser';
 import path from 'path';
-//import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
-// Webpack Requirements
+
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
-//import webpackDevMiddleware from 'webpack-dev-middleware';
-//import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new Express();
 
-// Run Webpack dev server in development mode
-/*if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
-}*/
+}
 
-// React And Redux Setup
+const router = Express.router;
+
 import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -29,41 +28,28 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
 
-// Import required modules
+import StaticRouter from 'react-router-dom/StaticRouter';
+import { matchRoutes, renderRoutes } from 'react-router-config';
+import reducers from '../client/reducers';
+
 import routes from '../client/routes';
-import { fetchComponentData } from '../util/fetchData';
-//import posts from './routes/post.routes';
-//import dummyData from './dummyData';
-//import serverConfig from './config';
 
-// Set native promises as mongoose promise
-//mongoose.Promise = global.Promise;
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-// MongoDB Connection
-/*mongoose.connect(serverConfig.mongoURL, (error) => {
-  if (error) {
-    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
-    throw error;
-  }
-
-  // feed some dummy data in DB.
-  dummyData();
-});*/
-
-// Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-//app.use('/api', posts);
+//  app.use('/api', posts);
 
-// Render Initial HTML
+
+
+
 const renderFullPage = (html, initialState) => {
   const head = Helmet.rewind();
 
-  // Import Manifests
-  //const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
-  //const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
+
 
   return `
     <!doctype html>
@@ -102,42 +88,44 @@ const renderError = err => {
   return renderFullPage(`Server Error${errTrace}`, {});
 };
 
+const store = createStore(reducers, applyMiddleware(thunk));
+
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
-    if (err) {
-      return res.status(500).end(renderError(err));
-    }
+  console.log("something");
+  console.log(req.url);
+  const branch = matchRoutes(routes, req.url);
+  console.log(branch);
+  const promises = branch.map(({route}) => {
+    let fetchData = route.component.fetchData;
+    return fetchData instanceof Function ? fetchData(store) : Promise.resolve(null)
+  });
 
-    if (redirectLocation) {
-      return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-    }
+  Promise.all(promises).then((data) => {
+    let context = {};
+    const content = renderToString(
+      <Provider store={store}>
+        <StaticRouter location={req.url} context={{}}>
+          {renderRoutes(routes)}
+        </StaticRouter>
+      </Provider>)
+    console.log(content);
+    res
+      .set('Content-Type', 'text/html')
+      .status(200)
+      .end(renderFullPage(content, store.getState()));
 
-    if (!renderProps) {
-      return next();
-    }
 
-    const store = configureStore();
 
-    return fetchComponentData(store, renderProps.components, renderProps.params)
-      .then(() => {
-        const initialView = renderToString(
-          <Provider store={store}>
 
-              <RouterContext {...renderProps} />
 
-          </Provider>
-        );
-        const finalState = store.getState();
 
-        res
-          .set('Content-Type', 'text/html')
-          .status(200)
-          .end(renderFullPage(initialView, finalState));
+
+
+
       })
       .catch((error) => next(error));
   });
-});
 
 // start app
 app.listen(8000, (error) => {
