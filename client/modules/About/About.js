@@ -4,7 +4,7 @@ import {fetchData as getTxt} from "./AboutActions";
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
 
-import styles from './app.css';
+import styles from './about.css';
 
 class About extends Component {
   static fetchData(store) {

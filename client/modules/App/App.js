@@ -8,7 +8,7 @@ import { renderRoutes } from 'react-router-config';
 // Import Components
 import Helmet from 'react-helmet';
 
-
+import "./app.css";
 
 class App extends Component {
   constructor(props) {
