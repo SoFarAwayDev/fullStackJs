@@ -33,16 +33,12 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         loader:	'style-loader!css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]'
-      }, {
-        test: /\.css$/,
-        include: /node_modules/,
-        loaders: ['style-loader', 'css-loader'],
       },
         {
           loader: "babel-loader",
-   
+
           // Only run `.js` and `.jsx` files through Babel
-          test: /\.js?$/,          
+          test: /\.js?$/,
         },
         {
         test: /\.(jpe?g|gif|png|svg)$/i,

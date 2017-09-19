@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import {fetchData as getTxt} from "./AboutActions";
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
+
+import styles from './app.css';
+
 class About extends Component {
   static fetchData(store) {
     return store.dispatch(getTxt());
@@ -13,11 +16,13 @@ class About extends Component {
   }
 
   render() {
+
     return (
       <div>
-       {this.props.aboutData}
 
-       <a href="/">Mii)))</a>
+          <span className={styles.data_string}>{this.props.aboutData}</span>
+
+          <a className={styles.link_to_main} href="/">Mii)))</a>
       </div>
     );
   }
