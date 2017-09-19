@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router'
 
+import { renderRoutes } from 'react-router-config';
+
 // Import Components
 import Helmet from 'react-helmet';
 
@@ -34,9 +36,9 @@ class App extends Component {
               },
             ]}
           />
- 
+            <h1>Mii root</h1>
           <div>
-            {this.props.children}
+                  {renderRoutes(this.props.route.routes)}
           </div>
 
         </div>

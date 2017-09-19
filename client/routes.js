@@ -8,7 +8,7 @@ import Mii from "./modules/Mii/Mii";
 const routes = [
   { component: App,
     routes: [
-      { path: '/mii',
+      { path: '/',
         exact: true,
         component: Mii
       },
