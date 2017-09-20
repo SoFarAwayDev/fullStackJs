@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import styles from './about.css';
+import styles from './about.scss';
 
 class About extends Component {
   static propTypes={
@@ -26,9 +26,9 @@ class About extends Component {
     return (
       <div>
 
-          <span className={styles.data_string}>{this.props.aboutData}</span>
+          <span className={styles.ml__data_string}>{this.props.aboutData}</span>
 
-          <a className={styles.link_to_main} href="/">Mii)))</a>
+          <a className={styles.ml__link_to_main} href="/">Mii)))</a>
       </div>
     );
   }

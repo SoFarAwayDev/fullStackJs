@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 // Import Components
 import Helmet from 'react-helmet';
 
-import "./app.css";
+import "./app.scss";
 
 class App extends Component {
   constructor(props) {

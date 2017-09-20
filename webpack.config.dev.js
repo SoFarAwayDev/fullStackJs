@@ -32,17 +32,20 @@ module.exports = {
    module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         use: 
           ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: {
+          use: [{
             loader: 'css-loader',
             options: {
               modules: true,
               localIdentName: "[name]_[local]_[hash:base64:5]"
             }
-          }
+          },
+          {
+            loader: 'sass-loader'
+          }]
         })
       },
       {
@@ -78,6 +81,6 @@ module.exports = {
     
   },
   plugins: [
-    new ExtractTextPlugin(path.join(__dirname,"styles.css"))
+    new ExtractTextPlugin(path.join(__dirname,"styles.css")),
   ]
 };
