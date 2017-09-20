@@ -12,8 +12,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new Express();
-
+/*eslint-disable no-undef*/
 if (process.env.NODE_ENV === 'development') {
+/*eslint-disable no-undef*/
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
@@ -51,10 +52,10 @@ const renderFullPage = (html, initialState) => {
     <!doctype html>
     <html>
       <head>
+        <link rel="stylesheet" href="/styles.css">
         ${head.base.toString()}
         ${head.title.toString()}
         ${head.meta.toString()}
-        ${head.link.toString()}
         ${head.script.toString()}
       </head>
       <body>

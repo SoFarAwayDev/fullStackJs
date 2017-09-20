@@ -1,4 +1,5 @@
 
+/*eslint-disable no-undef*/
 require('babel-register')({
     "plugins": [
         [
@@ -12,4 +13,4 @@ require('babel-register')({
 require('babel-polyfill');
 
 require('./server/server');
-  
+/*eslint-disable no-undef*/ 
