@@ -1,10 +1,17 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {fetchData as getTxt} from "./MiiActions";
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
+import PropTypes from 'prop-types';
 
 class Mii extends Component {
+  
+  static propTypes={
+    getTxt: PropTypes.func,
+    miiData: PropTypes.string
+  }
+
   static fetchData(store) {
     return store.dispatch(getTxt());
   }

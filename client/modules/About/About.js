@@ -1,12 +1,18 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {fetchData as getTxt} from "./AboutActions";
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 import styles from './about.css';
 
 class About extends Component {
+  static propTypes={
+    aboutData: PropTypes.string,
+    getTxt: PropTypes.func
+  }
+  
   static fetchData(store) {
     return store.dispatch(getTxt());
   }

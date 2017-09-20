@@ -35,9 +35,7 @@ module.exports = {
         loader:	'style-loader!css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]'
       },
         {
-          loader: "babel-loader",
-
-          // Only run `.js` and `.jsx` files through Babel
+          loaders: ["babel-loader","eslint-loader"],
           test: /\.js?$/,
         },
         {

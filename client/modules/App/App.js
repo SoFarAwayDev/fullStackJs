@@ -1,9 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-
+import React, { Component } from 'react';
 import { withRouter } from 'react-router'
-
 import { renderRoutes } from 'react-router-config';
+import PropTypes from 'prop-types'
+
 
 // Import Components
 import Helmet from 'react-helmet';
@@ -15,6 +14,9 @@ class App extends Component {
     super(props);
   }
 
+  static propTypes={
+    route: PropTypes.object 
+  }
  
   render() {
     return (
