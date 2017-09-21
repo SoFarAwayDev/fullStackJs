@@ -1,19 +1,22 @@
-
+import callApi from '../../apiCaller';
 // Export Constants
 export const GET_DATA = 'GET_DATA';
 
 // Export Actions
-export function getData() {
+export function getData(pageData) {
   return {
     type: GET_DATA,
-    data:"Mii is here=)))) Phase 3",
+    data: pageData,
   };
 }
 
 export function fetchData() {
     return (dispatch) => {
-        /*eslint-disable no-undef*/
-        return Promise.resolve(dispatch(getData()));
-        /*eslint-disable no-undef*/
+        return callApi('data', 'post', {
+          post: {
+            pageName: "miiPage"
+          },
+        }).then(res => dispatch(getData(res.pageData.text)));
+
     };
   }

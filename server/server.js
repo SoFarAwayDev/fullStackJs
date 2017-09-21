@@ -1,8 +1,11 @@
 import Express from 'express';
 import compression from 'compression';
-
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
+import appConfig from '../appConfig';
+import setInitPageData from '../util/setInitPageData';
+import pageData from './routes/pageData.routes'
 
 
 import webpack from 'webpack';
@@ -14,7 +17,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 const app = new Express();
 /*eslint-disable no-undef*/
 if (process.env.NODE_ENV === 'development') {
-/*eslint-disable no-undef*/
+/*eslint-disabled no-undef*/
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
@@ -34,11 +37,27 @@ import routes from '../client/routes';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
+
+// Set native promises as mongoose promise
+mongoose.Promise = global.Promise;
+
+// MongoDB Connection
+mongoose.connect(appConfig.mongoURL, (error) => {
+  if (error) {
+    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+    throw error;
+  }
+
+  // feed some dummy data in DB.
+  setInitPageData();
+});
+
+
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use('/static', Express.static(path.resolve(__dirname, '../dist/client')));
-
+app.use('/api', pageData);
 
 
 
@@ -93,9 +112,9 @@ app.use((req, res, next) => {
   });
 
 // start app
-app.listen(8000, (error) => {
+app.listen(appConfig.appPort, (error) => {
   if (!error) {
-    console.log(`Mii is running on port: ${8000}!`); // eslint-disable-line
+    console.log(`Mii is running on port: ${appConfig.appPort}!`); // eslint-disable-line
   }
 });
 
