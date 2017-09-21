@@ -37,22 +37,19 @@ import thunk from 'redux-thunk';
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
-app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-//  app.use('/api', posts);
+app.use(Express.static(path.resolve(__dirname, './client')));
+
 
 
 
 
 const renderFullPage = (html, initialState) => {
   const head = Helmet.rewind();
-
-
-
   return `
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="${process.env.NODE_ENV === 'production' ? '/client/styles.css': '/styles.css'}">
         ${head.base.toString()}
         ${head.title.toString()}
         ${head.meta.toString()}
@@ -63,8 +60,9 @@ const renderFullPage = (html, initialState) => {
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
         </script>
-        <script src=' '/vendor.js'></script>
-        <script src='/app.js'}'></script>
+        <script src='${process.env.NODE_ENV === 'production' ? '/client/vendor.js' : '/vendor.js'}'></script>
+        <script src='${process.env.NODE_ENV === 'production' ? '/client/app.js': '/app.js'}'></script>
+      </body>
       </body>
     </html>
   `;
