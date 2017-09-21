@@ -37,8 +37,7 @@ import thunk from 'redux-thunk';
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
-app.use(Express.static(path.resolve(__dirname, './client')));
-
+app.use('/static', Express.static(path.resolve(__dirname, '../dist/client')));
 
 
 
@@ -49,7 +48,7 @@ const renderFullPage = (html, initialState) => {
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="${process.env.NODE_ENV === 'production' ? '/client/styles.css': '/styles.css'}">
+        <link rel="stylesheet" href="${process.env.NODE_ENV === 'production' ? '/static/styles.css': '/styles.css'}">
         ${head.base.toString()}
         ${head.title.toString()}
         ${head.meta.toString()}
@@ -60,8 +59,8 @@ const renderFullPage = (html, initialState) => {
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
         </script>
-        <script src='${process.env.NODE_ENV === 'production' ? '/client/vendor.js' : '/vendor.js'}'></script>
-        <script src='${process.env.NODE_ENV === 'production' ? '/client/app.js': '/app.js'}'></script>
+        <script src='${process.env.NODE_ENV === 'production' ? '/static/vendor.js' : '/vendor.js'}'></script>
+        <script src='${process.env.NODE_ENV === 'production' ? '/static/app.js': '/app.js'}'></script>
       </body>
       </body>
     </html>
