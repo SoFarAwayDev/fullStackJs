@@ -4,6 +4,7 @@ import {fetchData as getTxt} from "./MiiActions";
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types';
+import styles from './styles.scss';
 
 class Mii extends Component {
   
@@ -22,9 +23,8 @@ class Mii extends Component {
 
   render() {
     return (
-      <div>
-       {this.props.miiData}
-       <a href="/about">About)))</a>
+      <div className={styles.hello_block}>
+       <h1>{this.props.miiData}</h1>
       </div>
     );
   }

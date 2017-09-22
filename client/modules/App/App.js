@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types'
+import Header from './components/header/header';
 
-
-// Import Components
 import Helmet from 'react-helmet';
 
-import "./app.scss";
+import "../../assets/global.scss";
+
+
+ 
+
 
 class App extends Component {
   constructor(props) {
@@ -38,8 +41,8 @@ class App extends Component {
               },
             ]}
           />
-            <h1>Mii root</h1>
-          <div>
+          <Header/>
+          <div className="container">
                   {renderRoutes(this.props.route.routes)}
           </div>
 

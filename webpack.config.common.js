@@ -30,6 +30,10 @@ module.exports = {
    module: {
     rules: [
       {
+          test: /(global\.css)$/,
+          loader:'style-loader|css-loader'
+      },
+      {
         test: /\.scss$/,
         use: 
           ExtractTextPlugin.extract({

@@ -25,10 +25,12 @@ class About extends Component {
 
     return (
       <div>
-
-          <span className={styles.ml__data_string}>{this.props.aboutData}</span>
-
-          <a className={styles.ml__link_to_main} href="/">Mii)))</a>
+          <div>
+            <span className={styles.ml__data_string}>{this.props.aboutData}</span>
+          </div>
+          <div>
+            <a className={`btn btn-primary ${styles.ml__link_to_main}`} href="/">Mii)))</a>
+          </div>
       </div>
     );
   }
