@@ -13,9 +13,7 @@ export function getData(pageData) {
 export function fetchData() {
     return (dispatch) => {
         return callApi('data', 'post', {
-          post: {
             pageName: "miiPage"
-          },
         }).then(res => dispatch(getData(res.pageData.text)));
 
     };

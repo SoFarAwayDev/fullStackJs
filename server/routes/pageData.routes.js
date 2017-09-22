@@ -3,7 +3,7 @@ import * as pageDataController from '../controllers/pageData.controller';
 const router = new Router();
 
 
-router.route('/data/:pageName').post(pageDataController.getPageData);
+router.route('/data').post(pageDataController.getPageData);
 
 
 

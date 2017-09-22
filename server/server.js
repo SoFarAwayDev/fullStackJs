@@ -90,6 +90,12 @@ const store = createStore(reducers, applyMiddleware(thunk));
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
+  const apiPrefix  = '/api/';
+  
+  if(req.url.substring(0, apiPrefix.length) === apiPrefix) { 
+    return next();
+  }
+  
   const branch = matchRoutes(routes, req.url);
   const promises = branch.map(({route}) => {
     let fetchData = route.component.fetchData;

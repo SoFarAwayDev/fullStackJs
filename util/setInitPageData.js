@@ -12,8 +12,8 @@ export default function () {
     });
 
     const aboutPage  = new pageData({
-        pageName: "miiPage",
-        text: "Hello! It's Mii!=)))"
+        pageName: "aboutPage",
+        text: "It's about Mii!!!"
     });
 
     pageData.create([miiPage, aboutPage], (error) => {
